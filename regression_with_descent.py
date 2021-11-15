@@ -7,6 +7,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+#initialize the data
 data = [
     [1, 2.5],
     [4, 7],
@@ -27,13 +28,11 @@ for coord in data:
     
 plt.scatter(x_coords, y_coords)
 
-
-# In[21]:
-
-
+#starting random line of y=1x+0 --> m=1, b=0
 m=1
 b=0
 lr=.01
+#iterate over the data 1000 times
 for i in range(1000):
     for point in data:
         guess = m*point[0]+b
@@ -41,16 +40,9 @@ for i in range(1000):
         print(i, error)
         m += error*point[0]*lr
         b += error*lr
-
+#plot data
 x = np.linspace(-30,35,100)
 y = 2*x+1
 plt.plot(x, y, '-r')
 plt.scatter(x_coords, y_coords)
 print ("y = ", m, "x +", b)
-
-
-# In[ ]:
-
-
-
-
