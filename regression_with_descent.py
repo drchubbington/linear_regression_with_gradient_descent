@@ -42,7 +42,7 @@ for i in range(1000):
         b += error*lr
 #plot data
 x = np.linspace(-30,35,100)
-y = 2*x+1
+y = m*x+b
 plt.plot(x, y, '-r')
 plt.scatter(x_coords, y_coords)
-print ("y = ", m, "x +", b)
+print ("y =", m, "x +", b)
