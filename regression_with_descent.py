@@ -1,25 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 
-#initialize the data
-data = [
-    [1, 2.5],
-    [4, 7],
-    [8, 14],
-    [-3, -2],
-    [6, 9],
-    [7, 17],
-    [34, 65],
-    [20, 40],
-    [-10, -15],
-    [-30, -58]
-]
+#prepare data
+#modeled line: y=2.5x+20
+random.seed(11)
+data=[]
+for i in range(100):
+    data.append([i, 2.5*i+20+random.gauss(0, 30)])
+
 x_coords = []
 y_coords = []
 for coord in data:
@@ -28,21 +17,34 @@ for coord in data:
     
 plt.scatter(x_coords, y_coords)
 
-#starting random line of y=1x+0 --> m=1, b=0
-m=1
+#train model
+#only 100 epoochs since data is 100 pts
+m=0
 b=0
-lr=.01
-#iterate over the data 1000 times
-for i in range(1000):
+lr=.01/(data[-1][1])
+for i in range(100):
+    error=0
     for point in data:
         guess = m*point[0]+b
         error = point[1]-guess
-        print(i, error)
         m += error*point[0]*lr
         b += error*lr
-#plot data
-x = np.linspace(-30,35,100)
+        print("x:", point[0], "y:", point[1], "error:", error, "m:", m, "b:", b)
+
+#display results
+x = np.linspace(min(x_coords),max(x_coords),100)
 y = m*x+b
 plt.plot(x, y, '-r')
 plt.scatter(x_coords, y_coords)
-print ("y =", m, "x +", b)
+print ("y = ", m, "x +", b)
+mean = 0
+error = 0
+variance = 0
+for point in data:
+    guess = m*point[0]+b
+    mean += point[0]/len(data)
+    error += (point[1]-guess)**2
+for point in data:
+    variance += (point[1]-mean)**2
+    
+print("R^2:", 1-(error/variance))
